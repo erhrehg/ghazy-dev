@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pengenalan Python — Ghazy Dev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--accent:#00ff88;--accent2:#7c3aed;--text:#e8e8f0;--muted:#6b6b80;--border:#1e1e2e;--mono:'Space Mono',monospace;--sans:'Syne',sans-serif;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:0.4;}
+    nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 clamp(1rem,5vw,4rem);display:flex;align-items:center;justify-content:space-between;height:64px;}
+    .nav-logo{font-family:var(--mono);font-size:1rem;color:var(--accent);text-decoration:none;}
+    .nav-logo span{color:var(--muted);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
+    .nav-links a{font-family:var(--mono);font-size:0.75rem;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--accent);}
+    .page-wrap{display:grid;grid-template-columns:1fr 280px;gap:4rem;max-width:1200px;margin:0 auto;padding:3rem clamp(1rem,5vw,4rem);align-items:start;}
+    article{min-width:0;}
+    .breadcrumb{font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-bottom:2rem;display:flex;align-items:center;gap:0.5rem;}
+    .breadcrumb a{color:var(--accent);text-decoration:none;}
+    .breadcrumb span{color:var(--border);}
+    .article-tag{display:inline-block;font-family:var(--mono);font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:#000;background:var(--accent);padding:0.3rem 0.75rem;margin-bottom:1.5rem;}
+    article h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-1.5px;line-height:1.15;margin-bottom:1.5rem;}
+    .article-meta-bar{display:flex;align-items:center;gap:2rem;padding:1.25rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:3rem;font-family:var(--mono);font-size:0.7rem;color:var(--muted);}
+    .article-meta-bar .author{color:var(--text);font-weight:700;}
+    .article-body p{font-family:var(--mono);font-size:0.85rem;color:#c8c8d8;line-height:1.9;margin-bottom:1.75rem;}
+    .article-body h2{font-size:1.4rem;font-weight:800;letter-spacing:-0.5px;margin:3rem 0 1.25rem;color:var(--text);padding-left:1rem;border-left:3px solid var(--accent);}
+    .article-body h3{font-size:1.1rem;font-weight:700;margin:2rem 0 1rem;color:var(--text);}
+    .code-block{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent2);padding:1.5rem;margin:2rem 0;overflow-x:auto;}
+    .code-block .lang-label{font-family:var(--mono);font-size:0.6rem;color:var(--accent2);letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem;display:block;}
+    .code-block pre{font-family:var(--mono);font-size:0.78rem;line-height:1.8;color:var(--text);white-space:pre-wrap;}
+    .kw{color:#7c3aed;}.fn{color:#00ff88;}.str{color:#f59e0b;}.cm{color:#3d3d52;}.num{color:#f87171;}
+    .callout{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.2);border-left:3px solid var(--accent);padding:1.25rem 1.5rem;margin:2rem 0;}
+    .callout-label{font-family:var(--mono);font-size:0.65rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.5rem;display:block;}
+    .callout p{font-family:var(--mono);font-size:0.8rem;color:#c8c8d8;line-height:1.8;margin:0!important;}
+    .article-body code{font-family:var(--mono);font-size:0.8rem;color:var(--accent);background:rgba(0,255,136,0.08);padding:0.15rem 0.4rem;}
+    .use-cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:2rem 0;}
+    .use-case{background:var(--card);padding:1.5rem;transition:background 0.2s;}
+    .use-case:hover{background:var(--surface);}
+    .use-case-icon{font-size:1.5rem;margin-bottom:0.75rem;}
+    .use-case h4{font-size:0.9rem;font-weight:800;margin-bottom:0.4rem;}
+    .use-case p{font-family:var(--mono);font-size:0.7rem;color:var(--muted);line-height:1.7;margin:0!important;}
+    .divider{border:none;border-top:1px solid var(--border);margin:3rem 0;}
+    .article-nav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);}
+    .article-nav a{background:var(--card);border:1px solid var(--border);padding:1.25rem;text-decoration:none;color:inherit;transition:border-color 0.2s;}
+    .article-nav a:hover{border-color:var(--accent);}
+    .nav-dir{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.5rem;display:block;}
+    .nav-title{font-size:0.95rem;font-weight:700;line-height:1.4;}
+    .next{text-align:right;}
+    aside{position:sticky;top:84px;}
+    .toc{background:var(--card);border:1px solid var(--border);padding:1.5rem;margin-bottom:2rem;}
+    .toc h3{font-family:var(--mono);font-size:0.65rem;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
+    .toc ol{list-style:none;counter-reset:toc;}
+    .toc li{counter-increment:toc;margin-bottom:0.6rem;}
+    .toc a{font-family:var(--mono);font-size:0.72rem;color:var(--muted);text-decoration:none;display:flex;gap:0.75rem;align-items:baseline;transition:color 0.2s;line-height:1.5;}
+    .toc a::before{content:counter(toc,decimal-leading-zero);color:var(--border);font-size:0.65rem;flex-shrink:0;}
+    .toc a:hover{color:var(--accent);}
+    .author-card{background:var(--card);border:1px solid var(--border);padding:1.5rem;margin-bottom:2rem;}
+    .author-card h3{font-family:var(--mono);font-size:0.65rem;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:1.25rem;}
+    .author-inner{display:flex;gap:1rem;align-items:center;margin-bottom:1rem;}
+    .avatar{width:48px;height:48px;flex-shrink:0;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1rem;font-weight:700;color:#000;}
+    .author-info h4{font-size:0.95rem;font-weight:800;margin-bottom:0.2rem;}
+    .author-info span{font-family:var(--mono);font-size:0.65rem;color:var(--accent);}
+    .author-card p{font-family:var(--mono);font-size:0.72rem;color:var(--muted);line-height:1.8;}
+    .related-posts h3{font-family:var(--mono);font-size:0.65rem;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
+    .related-item{padding:1rem 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;display:block;transition:all 0.2s;}
+    .related-item:hover h4{color:var(--accent);}
+    .related-item h4{font-size:0.85rem;font-weight:700;line-height:1.4;margin-bottom:0.3rem;}
+    .related-item span{font-family:var(--mono);font-size:0.65rem;color:var(--muted);}
+    footer{border-top:1px solid var(--border);background:var(--surface);padding:3rem clamp(1rem,5vw,4rem);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer .logo{font-family:var(--mono);font-size:0.9rem;color:var(--accent);}
+    footer p{font-family:var(--mono);font-size:0.7rem;color:var(--muted);}
+    @media(max-width:768px){.page-wrap{grid-template-columns:1fr;}aside{position:static;}.nav-links{display:none;}.article-nav{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">ghazy<span>.dev</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="artikel.html">Tutorial</a></li>
+      <li><a href="tentang.html">Tentang</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrap">
+    <article>
+      <div class="breadcrumb"><a href="index.html">Beranda</a><span>/</span><a href="artikel.html">Artikel</a><span>/</span><span>Pengenalan Python</span></div>
+      <span class="article-tag">Python</span>
+      <h1>Pengenalan Python: Bahasa Pemrograman yang Wajib Dipelajari</h1>
+      <div class="article-meta-bar">
+        <span class="author">Ghazy</span><span>25 Maret 2026</span><span>9 menit baca</span><span>Yogyakarta</span>
+      </div>
+      <div class="article-body">
+        <p>Python adalah salah satu bahasa pemrograman paling populer di dunia saat ini. Alasannya sederhana: sintaksnya mudah dibaca seperti bahasa manusia, dan bisa dipakai untuk hampir segalanya — dari membuat website, menganalisis data, hingga membangun kecerdasan buatan (AI).</p>
+
+        <h2>Kenapa Harus Belajar Python?</h2>
+        <div class="use-cases">
+          <div class="use-case">
+            <div class="use-case-icon">🌐</div>
+            <h4>Web Development</h4>
+            <p>Dipakai oleh Instagram, Pinterest, dan Spotify untuk backend mereka.</p>
+          </div>
+          <div class="use-case">
+            <div class="use-case-icon">🤖</div>
+            <h4>Kecerdasan Buatan</h4>
+            <p>Bahasa utama untuk machine learning dan AI dengan library seperti TensorFlow.</p>
+          </div>
+          <div class="use-case">
+            <div class="use-case-icon">📊</div>
+            <h4>Analisis Data</h4>
+            <p>Dipakai data scientist untuk mengolah dan memvisualisasikan data besar.</p>
+          </div>
+          <div class="use-case">
+            <div class="use-case-icon">⚙️</div>
+            <h4>Otomasi</h4>
+            <p>Mengotomasi tugas berulang seperti rename file, kirim email, atau scraping web.</p>
+          </div>
+        </div>
+
+        <h2>Instalasi Python</h2>
+        <p>Sebelum bisa menulis kode Python, kamu perlu menginstall Python di komputermu. Caranya mudah: buka <code>python.org</code>, download versi terbaru, dan install. Pastikan centang opsi <strong>"Add Python to PATH"</strong> saat instalasi.</p>
+
+        <div class="callout">
+          <span class="callout-label">💡 Alternatif Online</span>
+          <p>Tidak mau install? Pakai <code>replit.com</code> atau <code>google.com/colab</code> — bisa menulis dan menjalankan Python langsung di browser, gratis.</p>
+        </div>
+
+        <h2>Program Python Pertamamu</h2>
+        <p>Tradisi dalam belajar bahasa pemrograman adalah menulis program "Halo Dunia" pertama. Di Python, ini hanya satu baris:</p>
+
+        <div class="code-block">
+          <span class="lang-label">Python</span>
+          <pre><span class="fn">print</span>(<span class="str">"Halo Dunia!"</span>)
+<span class="cm"># Output: Halo Dunia!</span>
+
+<span class="fn">print</span>(<span class="str">"Namaku Ghazy, dari Yogyakarta"</span>)</pre>
+        </div>
+
+        <h2>Variabel di Python</h2>
+        <p>Di Python, kamu tidak perlu menulis <code>const</code> atau <code>let</code> seperti di JavaScript. Cukup tulis nama variabel, tanda sama dengan, dan nilainya.</p>
+
+        <div class="code-block">
+          <span class="lang-label">Python</span>
+          <pre><span class="cm"># Menyimpan data</span>
+nama = <span class="str">"Ghazy"</span>
+kota = <span class="str">"Yogyakarta"</span>
+umur = <span class="num">17</span>
+
+<span class="cm"># Menampilkan data</span>
+<span class="fn">print</span>(nama)   <span class="cm"># Ghazy</span>
+<span class="fn">print</span>(kota)   <span class="cm"># Yogyakarta</span>
+<span class="fn">print</span>(umur)   <span class="cm"># 17</span>
+
+<span class="cm"># Gabungkan teks dengan f-string</span>
+<span class="fn">print</span>(<span class="str">f"Halo, namaku {nama} dari {kota}"</span>)
+<span class="cm"># Output: Halo, namaku Ghazy dari Yogyakarta</span></pre>
+        </div>
+
+        <h2>Tipe Data Dasar</h2>
+        <div class="code-block">
+          <span class="lang-label">Python</span>
+          <pre><span class="cm"># String (teks)</span>
+nama = <span class="str">"Ghazy"</span>
+
+<span class="cm"># Integer (bilangan bulat)</span>
+nilai = <span class="num">95</span>
+
+<span class="cm"># Float (bilangan desimal)</span>
+ipk = <span class="num">3.85</span>
+
+<span class="cm"># Boolean (benar/salah)</span>
+lulus = <span class="kw">True</span>
+
+<span class="cm"># List (daftar)</span>
+pelajaran = [<span class="str">"HTML"</span>, <span class="str">"CSS"</span>, <span class="str">"Python"</span>]
+<span class="fn">print</span>(pelajaran[<span class="num">0</span>])  <span class="cm"># HTML (index mulai dari 0)</span></pre>
+        </div>
+
+        <h2>Kondisi dan Perulangan</h2>
+        <h3>If / Else</h3>
+        <div class="code-block">
+          <span class="lang-label">Python</span>
+          <pre>nilai = <span class="num">85</span>
+
+<span class="kw">if</span> nilai >= <span class="num">90</span>:
+    <span class="fn">print</span>(<span class="str">"Nilai A"</span>)
+<span class="kw">elif</span> nilai >= <span class="num">75</span>:
+    <span class="fn">print</span>(<span class="str">"Nilai B"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Perlu belajar lebih giat"</span>)
+
+<span class="cm"># Output: Nilai B</span></pre>
+        </div>
+
+        <h3>Perulangan For</h3>
+        <div class="code-block">
+          <span class="lang-label">Python</span>
+          <pre>bahasa = [<span class="str">"HTML"</span>, <span class="str">"CSS"</span>, <span class="str">"Python"</span>, <span class="str">"JavaScript"</span>]
+
+<span class="kw">for</span> item <span class="kw">in</span> bahasa:
+    <span class="fn">print</span>(<span class="str">f"Belajar: {item}"</span>)
+
+<span class="cm"># Output:</span>
+<span class="cm"># Belajar: HTML</span>
+<span class="cm"># Belajar: CSS</span>
+<span class="cm"># Belajar: Python</span>
+<span class="cm"># Belajar: JavaScript</span></pre>
+        </div>
+
+        <div class="callout">
+          <span class="callout-label">✅ Langkah Selanjutnya</span>
+          <p>Setelah menguasai dasar-dasar ini, coba buat program kalkulator sederhana atau program yang bisa menerima input dari pengguna menggunakan fungsi <code>input()</code>.</p>
+        </div>
+
+        <hr class="divider"/>
+        <div class="article-nav">
+          <a href="tutorial-github.html"><span class="nav-dir">← Sebelumnya</span><span class="nav-title">Cara Upload ke GitHub</span></a>
+          <a href="artikel.html" class="next"><span class="nav-dir">Lihat Semua →</span><span class="nav-title">Semua Artikel</span></a>
+        </div>
+      </div>
+    </article>
+
+    <aside>
+      <div class="toc">
+        <h3>Daftar Isi</h3>
+        <ol>
+          <li><a href="#">Kenapa Belajar Python?</a></li>
+          <li><a href="#">Instalasi</a></li>
+          <li><a href="#">Program Pertama</a></li>
+          <li><a href="#">Variabel</a></li>
+          <li><a href="#">Tipe Data</a></li>
+          <li><a href="#">Kondisi & Perulangan</a></li>
+        </ol>
+      </div>
+      <div class="author-card">
+        <h3>Penulis</h3>
+        <div class="author-inner">
+          <div class="avatar">GZ</div>
+          <div class="author-info"><h4>Ghazy</h4><span>📍 Yogyakarta</span></div>
+        </div>
+        <p>Suka coding dan berbagi ilmu. Blog ini dibuat untuk membantu siapa saja belajar pemrograman dari nol.</p>
+      </div>
+      <div class="related-posts">
+        <h3>Artikel Terkait</h3>
+        <a href="tutorial-javascript.html" class="related-item"><h4>Variabel JavaScript</h4><span>JavaScript · 5 menit baca</span></a>
+        <a href="tutorial-github.html" class="related-item"><h4>Cara Upload ke GitHub</h4><span>GitHub · 7 menit baca</span></a>
+        <a href="tutorial-html.html" class="related-item"><h4>Belajar HTML dari Nol</h4><span>HTML · 8 menit baca</span></a>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="logo">ghazy.dev</div>
+    <p>© 2026 Ghazy — Blog Tutorial Coding dari Yogyakarta</p>
+    <p>Dibuat dengan HTML & CSS</p>
+  </footer>
+</body>
+</html>
