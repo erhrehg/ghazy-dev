@@ -108,7 +108,7 @@
         '<div class="lock-icon">🔒</div>' +
         '<h2>Konten Member Only</h2>' +
         '<p>Kamu perlu login untuk membaca artikel ini. Daftar gratis dan akses semua tutorial coding di blog ini.</p>' +
-        '<a href="login.html" class="lock-btn" id="lockLoginBtn">Login Sekarang →</a>' +
+        '<a href="login/index.html" class="lock-btn" id="lockLoginBtn">Login Sekarang →</a>' +
       '</div>';
     document.body.appendChild(overlay);
 
