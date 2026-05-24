@@ -390,7 +390,7 @@
     // Login logic
     const loginBtn  = document.getElementById('loginBtn');
     const errorMsg  = document.getElementById('errorMsg');
-    const emailInput = document.getElementById('email');
+    const emailInput = document.getElementById('username');
 
     loginBtn.addEventListener('click', () => {
       const email    = emailInput.value.trim().toLowerCase();
@@ -398,8 +398,8 @@
 
       errorMsg.classList.remove('show');
 
-      if (!email || !password) {
-        errorMsg.textContent = 'Email dan password wajib diisi.';
+      if (!username || !password) {
+        errorMsg.textContent = 'Username dan password wajib diisi.';
         errorMsg.classList.add('show');
         return;
       }
