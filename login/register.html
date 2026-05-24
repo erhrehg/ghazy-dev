@@ -1,1 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daftar — Ghazy Dev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--accent:#00ff88;--accent2:#7c3aed;--text:#e8e8f0;--muted:#6b6b80;--border:#1e1e2e;--mono:'Space Mono',monospace;--sans:'Syne',sans-serif;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;display:grid;grid-template-columns:1fr 1fr;}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:0.4;}
+    .left-panel{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:space-between;padding:clamp(2rem,5vw,4rem);position:relative;overflow:hidden;}
+    .left-panel::before{content:'';position:absolute;bottom:-100px;left:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,255,136,0.15) 0%,transparent 70%);pointer-events:none;}
+    .left-logo{font-family:var(--mono);font-size:1rem;color:var(--accent);text-decoration:none;position:relative;z-index:1;}
+    .left-logo span{color:var(--muted);}
+    .left-content{position:relative;z-index:1;}
+    .left-tag{font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem;}
+    .left-tag::before{content:'';width:2rem;height:1px;background:var(--accent);}
+    .left-content h1{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;letter-spacing:-2px;line-height:1.1;margin-bottom:1.25rem;}
+    .left-content h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1px var(--accent);}
+    .left-content p{font-family:var(--mono);font-size:0.8rem;color:var(--muted);line-height:1.9;max-width:380px;}
+    .left-quote{position:relative;z-index:1;border-left:2px solid var(--accent);padding-left:1.25rem;}
+    .left-quote p{font-family:var(--mono);font-size:0.78rem;color:var(--muted);line-height:1.8;margin-bottom:0.75rem;}
+    .left-quote span{font-family:var(--mono);font-size:0.65rem;color:var(--accent);letter-spacing:1px;}
+    .right-panel{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:clamp(2rem,5vw,4rem);background:var(--bg);}
+    .form-wrap{width:100%;max-width:400px;}
+    .form-header{margin-bottom:2.5rem;}
+    .form-header h2{font-size:1.8rem;font-weight:800;letter-spacing:-1px;margin-bottom:0.5rem;}
+    .form-header p{font-family:var(--mono);font-size:0.75rem;color:var(--muted);line-height:1.7;}
+    .form-header p a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s;}
+    .form-header p a:hover{border-color:var(--accent);}
+    .field{margin-bottom:1.5rem;}
+    .field label{display:block;font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.6rem;}
+    .input-wrap{position:relative;}
+    .input-wrap input{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.85rem;padding:0.9rem 1rem;outline:none;transition:border-color 0.2s,box-shadow 0.2s;appearance:none;}
+    .input-wrap input::placeholder{color:var(--muted);}
+    .input-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,255,136,0.08);}
+    .field-indicator{position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--accent);opacity:0;transition:opacity 0.2s;}
+    .input-wrap input:focus+.field-indicator{opacity:1;}
+    .btn-register{width:100%;background:var(--accent);color:#000;font-family:var(--mono);font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:1rem;border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;}
+    .btn-register:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 var(--accent2);}
+    .btn-register:disabled{opacity:0.6;pointer-events:none;}
+    #message{font-family:var(--mono);font-size:0.78rem;margin-top:1rem;line-height:1.6;min-height:1.2rem;}
+    .or-divider{display:flex;align-items:center;gap:1rem;margin:1.75rem 0;}
+    .or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+    .or-divider span{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+    .back-link{display:flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.7rem;color:var(--muted);text-decoration:none;letter-spacing:1px;margin-top:2rem;transition:color 0.2s;}
+    .back-link:hover{color:var(--accent);}
+    .back-link::before{content:'←';}
+    @media(max-width:768px){body{grid-template-columns:1fr;}.left-panel{display:none;}}
+  </style>
+</head>
+<body>
+  <div class="left-panel">
+    <a href="../index.html" class="left-logo">ghazy<span>.dev</span></a>
+    <div class="left-content">
+      <div class="left-tag">Bergabung Sekarang</div>
+      <h1>Buat <em>Akun</em> Baru</h1>
+      <p>Daftar gratis dan dapatkan akses ke semua tutorial coding dalam bahasa Indonesia — dari HTML dasar sampai Python.</p>
+    </div>
+    <div class="left-quote">
+      <p>"Setiap programmer hebat pernah menjadi pemula. Yang membedakan hanya satu: mereka tidak berhenti."</p>
+      <span>— Ghazy, Yogyakarta</span>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="form-wrap">
+      <div class="form-header">
+        <h2>Daftar</h2>
+        <p>Sudah punya akun? <a href="index.html">Login di sini</a></p>
+      </div>
+
+      <form id="registerForm">
+        <div class="field">
+          <label for="username">Username</label>
+          <div class="input-wrap">
+            <input type="text" id="username" placeholder="Username kamu" required autocomplete="username"/>
+            <div class="field-indicator"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <div class="input-wrap">
+            <input type="email" id="email" placeholder="nama@email.com" autocomplete="email"/>
+            <div class="field-indicator"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="password" placeholder="••••••••" required autocomplete="new-password"/>
+            <div class="field-indicator"></div>
+          </div>
+        </div>
+
+        <p id="message"></p>
+
+        <button type="submit" class="btn-register">Daftar →</button>
+      </form>
+
+      <div class="or-divider"><span>atau</span></div>
+      <a href="../index.html" class="back-link">Kembali ke Beranda</a>
+    </div>
+  </div>
+
+  <script src="js/register.js" defer></script>
+</body>
+</html>
 
