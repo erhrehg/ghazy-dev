@@ -36,7 +36,7 @@
   var page = currentPage();
   if (PROTECTED_PAGES.indexOf(page) !== -1 && !isLoggedIn()) {
     localStorage.setItem('ghazy_intended', page);
-    window.location.href = 'login.html';
+    window.location.href = 'login/index.html';
     return;
   }
 
@@ -82,7 +82,7 @@
           '<button class="btn-logout" id="logoutBtn">Logout</button>';
       } else {
         authArea.innerHTML =
-          '<a href="login.html" class="btn-login-nav">Login</a>';
+          '<a href="login/index.html" class="btn-login-nav">Login</a>';
       }
 
       nav.appendChild(authArea);
