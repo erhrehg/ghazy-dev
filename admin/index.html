@@ -322,37 +322,433 @@
 
       <!-- ARTIKEL PAGE -->
       <div class="page" id="page-artikel">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-          <div class="section-label" style="margin:0;flex:1;">Semua Artikel</div>
-          <button class="btn-add" onclick="alert('Fitur tambah artikel — sambungkan ke backend')">+ Tambah Artikel</button>
+
+        <!-- TOOLBAR -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <div class="section-label" style="margin:0;flex:1;">Kelola Artikel</div>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <input type="text" id="searchArtikel" placeholder="Cari artikel..." oninput="filterArtikel()" style="background:var(--card);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.72rem;padding:0.5rem 0.9rem;outline:none;width:200px;"/>
+            <select id="filterKategori" onchange="filterArtikel()" style="background:var(--card);border:1px solid var(--border);color:var(--muted);font-family:var(--mono);font-size:0.7rem;padding:0.5rem 0.75rem;outline:none;cursor:pointer;">
+              <option value="">Semua Kategori</option>
+              <option value="HTML">HTML</option>
+              <option value="CSS">CSS</option>
+              <option value="JavaScript">JS</option>
+              <option value="GitHub">GitHub</option>
+              <option value="Python">Python</option>
+            </select>
+            <button class="btn-add" onclick="openModal()">+ Tambah Artikel</button>
+          </div>
         </div>
+
+        <!-- STATS MINI -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:1.5rem;">
+          <div style="background:var(--card);padding:1rem 1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.4rem;">Total</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--accent);">8</div>
+          </div>
+          <div style="background:var(--card);padding:1rem 1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.4rem;">HTML</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--accent2);">3</div>
+          </div>
+          <div style="background:var(--card);padding:1rem 1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.4rem;">CSS</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--accent3);">2</div>
+          </div>
+          <div style="background:var(--card);padding:1rem 1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.4rem;">Lainnya</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--danger);">3</div>
+          </div>
+        </div>
+
+        <!-- TABLE -->
         <div class="panel">
-          <table class="data-table">
+          <table class="data-table" id="tabelArtikel">
             <thead>
-              <tr><th>#</th><th>Judul</th><th>Kategori</th><th>Tanggal</th><th>Pembaca</th><th>Aksi</th></tr>
+              <tr>
+                <th>#</th>
+                <th>Judul</th>
+                <th>Kategori</th>
+                <th>Tanggal</th>
+                <th>Pembaca</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
             </thead>
-            <tbody>
-              <tr><td>1</td><td>Belajar HTML dari Nol</td><td><span class="badge green">HTML</span></td><td>14 Apr 2026</td><td>342</td><td><button class="btn-sm">Edit</button> <button class="btn-sm del">Hapus</button></td></tr>
-              <tr><td>2</td><td>Flexbox vs Grid CSS</td><td><span class="badge purple">CSS</span></td><td>10 Apr 2026</td><td>198</td><td><button class="btn-sm">Edit</button> <button class="btn-sm del">Hapus</button></td></tr>
-              <tr><td>3</td><td>Variabel JavaScript</td><td><span class="badge yellow">JS</span></td><td>7 Apr 2026</td><td>156</td><td><button class="btn-sm">Edit</button> <button class="btn-sm del">Hapus</button></td></tr>
-              <tr><td>4</td><td>Cara Upload ke GitHub</td><td><span class="badge purple">GitHub</span></td><td>1 Apr 2026</td><td>287</td><td><button class="btn-sm">Edit</button> <button class="btn-sm del">Hapus</button></td></tr>
-              <tr><td>5</td><td>Pengenalan Python</td><td><span class="badge yellow">Python</span></td><td>25 Mar 2026</td><td>241</td><td><button class="btn-sm">Edit</button> <button class="btn-sm del">Hapus</button></td></tr>
-              <tr><td>6</td><td>Navigasi Responsif HTML CSS</td><td><span class="badge green">HTML</span></td><td>20 Mar 2026</td><td>134</td><td><button class="btn-sm">Edit</button> <button class="btn-sm del">Hapus</button></td></tr>
-              <tr><td>7</td><td>10 Properti CSS Wajib 2026</td><td><span class="badge purple">CSS</span></td><td>15 Mar 2026</td><td>112</td><td><button class="btn-sm">Edit</button> <button class="btn-sm del">Hapus</button></td></tr>
-              <tr><td>8</td><td>Form HTML yang Benar</td><td><span class="badge green">HTML</span></td><td>10 Mar 2026</td><td>98</td><td><button class="btn-sm">Edit</button> <button class="btn-sm del">Hapus</button></td></tr>
+            <tbody id="bodyArtikel">
+              <tr data-judul="Belajar HTML dari Nol" data-kat="HTML"><td>1</td><td>Belajar HTML dari Nol</td><td><span class="badge green">HTML</span></td><td>14 Apr 2026</td><td>342</td><td><span class="badge green">Aktif</span></td><td><button class="btn-sm" onclick="editArtikel(this)">Edit</button> <button class="btn-sm del" onclick="hapusArtikel(this)">Hapus</button></td></tr>
+              <tr data-judul="Flexbox vs Grid CSS" data-kat="CSS"><td>2</td><td>Flexbox vs Grid CSS</td><td><span class="badge purple">CSS</span></td><td>10 Apr 2026</td><td>198</td><td><span class="badge green">Aktif</span></td><td><button class="btn-sm" onclick="editArtikel(this)">Edit</button> <button class="btn-sm del" onclick="hapusArtikel(this)">Hapus</button></td></tr>
+              <tr data-judul="Variabel JavaScript" data-kat="JavaScript"><td>3</td><td>Variabel JavaScript</td><td><span class="badge yellow">JS</span></td><td>7 Apr 2026</td><td>156</td><td><span class="badge green">Aktif</span></td><td><button class="btn-sm" onclick="editArtikel(this)">Edit</button> <button class="btn-sm del" onclick="hapusArtikel(this)">Hapus</button></td></tr>
+              <tr data-judul="Cara Upload ke GitHub" data-kat="GitHub"><td>4</td><td>Cara Upload ke GitHub</td><td><span class="badge purple">GitHub</span></td><td>1 Apr 2026</td><td>287</td><td><span class="badge green">Aktif</span></td><td><button class="btn-sm" onclick="editArtikel(this)">Edit</button> <button class="btn-sm del" onclick="hapusArtikel(this)">Hapus</button></td></tr>
+              <tr data-judul="Pengenalan Python" data-kat="Python"><td>5</td><td>Pengenalan Python</td><td><span class="badge yellow">Python</span></td><td>25 Mar 2026</td><td>241</td><td><span class="badge green">Aktif</span></td><td><button class="btn-sm" onclick="editArtikel(this)">Edit</button> <button class="btn-sm del" onclick="hapusArtikel(this)">Hapus</button></td></tr>
+              <tr data-judul="Navigasi Responsif HTML CSS" data-kat="HTML"><td>6</td><td>Navigasi Responsif HTML CSS</td><td><span class="badge green">HTML</span></td><td>20 Mar 2026</td><td>134</td><td><span class="badge green">Aktif</span></td><td><button class="btn-sm" onclick="editArtikel(this)">Edit</button> <button class="btn-sm del" onclick="hapusArtikel(this)">Hapus</button></td></tr>
+              <tr data-judul="10 Properti CSS Wajib 2026" data-kat="CSS"><td>7</td><td>10 Properti CSS Wajib 2026</td><td><span class="badge purple">CSS</span></td><td>15 Mar 2026</td><td>112</td><td><span class="badge green">Aktif</span></td><td><button class="btn-sm" onclick="editArtikel(this)">Edit</button> <button class="btn-sm del" onclick="hapusArtikel(this)">Hapus</button></td></tr>
+              <tr data-judul="Form HTML yang Benar" data-kat="HTML"><td>8</td><td>Form HTML yang Benar</td><td><span class="badge green">HTML</span></td><td>10 Mar 2026</td><td>98</td><td><span class="badge green">Aktif</span></td><td><button class="btn-sm" onclick="editArtikel(this)">Edit</button> <button class="btn-sm del" onclick="hapusArtikel(this)">Hapus</button></td></tr>
             </tbody>
           </table>
         </div>
+
+        <!-- MODAL TAMBAH/EDIT ARTIKEL -->
+        <div id="modalArtikel" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;display:none;align-items:center;justify-content:center;">
+          <div style="background:var(--card);border:1px solid var(--border);width:90%;max-width:520px;padding:2rem;position:relative;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+              <h3 style="font-size:1rem;font-weight:800;" id="modalTitle">Tambah Artikel</h3>
+              <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);font-size:1.25rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="settings-field">
+              <label>Judul Artikel</label>
+              <input type="text" id="modalJudul" placeholder="Judul artikel..."/>
+            </div>
+            <div class="settings-field">
+              <label>Kategori</label>
+              <select id="modalKat" style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.8rem;padding:0.75rem 1rem;outline:none;">
+                <option>HTML</option><option>CSS</option><option>JavaScript</option><option>GitHub</option><option>Python</option>
+              </select>
+            </div>
+            <div class="settings-field">
+              <label>Ringkasan</label>
+              <textarea id="modalRingkasan" placeholder="Tulis ringkasan artikel..." style="min-height:80px;"></textarea>
+            </div>
+            <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1rem;">
+              <button onclick="closeModal()" style="background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--mono);font-size:0.7rem;padding:0.6rem 1.25rem;cursor:pointer;letter-spacing:1px;text-transform:uppercase;">Batal</button>
+              <button onclick="simpanArtikel()" class="btn-save">Simpan</button>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- PENGGUNA PAGE -->
       <div class="page" id="page-pengguna">
-        <div class="section-label">Daftar Pengguna</div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <div class="section-label" style="margin:0;flex:1;">Kelola Pengguna</div>
+          <input type="text" id="searchPengguna" placeholder="Cari username..." oninput="filterPengguna()" style="background:var(--card);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.72rem;padding:0.5rem 0.9rem;outline:none;width:200px;"/>
+        </div>
+
+        <!-- STATS MINI -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:1.5rem;">
+          <div style="background:var(--card);padding:1rem 1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.4rem;">Total Pengguna</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--accent);" id="totalPengguna">3</div>
+          </div>
+          <div style="background:var(--card);padding:1rem 1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.4rem;">Admin</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--accent2);">1</div>
+          </div>
+          <div style="background:var(--card);padding:1rem 1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.4rem;">User Biasa</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--accent3);" id="totalUser">2</div>
+          </div>
+        </div>
+
+        <!-- TABLE -->
         <div class="panel">
           <table class="data-table">
             <thead>
-              <tr><th>#</th><th>Username</th><th>Role</th><th>Status</th><th>Terakhir Login</th></tr>
+              <tr><th>#</th><th>Username</th><th>Role</th><th>Status</th><th>Terakhir Login</th><th>Aksi</th></tr>
             </thead>
-            <tbody>
-              <tr><td>1</td><td>admin</td><td><span class="badge purple">Admin</span></td><td><span class="badge green">Aktif</span></td><td>Baru saja</td></tr>
-              <tr><td>2</td><td>heri</td><td><span class="badge green">User</span></td><td><span class="badge green">Aktif</span></td><
+            <tbody id="bodyPengguna">
+              <tr data-username="admin"><td>1</td><td>admin</td><td><span class="badge purple">Admin</span></td><td><span class="badge green">Aktif</span></td><td>Baru saja</td><td><button class="btn-sm" onclick="lihatPengguna('admin','Admin','Administrator')">Detail</button></td></tr>
+              <tr data-username="heri"><td>2</td><td>heri</td><td><span class="badge green">User</span></td><td><span class="badge green">Aktif</span></td><td>2 menit lalu</td><td><button class="btn-sm" onclick="lihatPengguna('heri','heri','User')">Detail</button> <button class="btn-sm del" onclick="hapusPengguna(this)">Hapus</button></td></tr>
+              <tr data-username="demo"><td>3</td><td>demo</td><td><span class="badge green">User</span></td><td><span class="badge green">Aktif</span></td><td>5 jam lalu</td><td><button class="btn-sm" onclick="lihatPengguna('demo','Demo User','User')">Detail</button> <button class="btn-sm del" onclick="hapusPengguna(this)">Hapus</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- MODAL DETAIL PENGGUNA -->
+        <div id="modalPengguna" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;align-items:center;justify-content:center;">
+          <div style="background:var(--card);border:1px solid var(--border);width:90%;max-width:400px;padding:2rem;position:relative;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+              <h3 style="font-size:1rem;font-weight:800;">Detail Pengguna</h3>
+              <button onclick="document.getElementById('modalPengguna').style.display='none';" style="background:none;border:none;color:var(--muted);font-size:1.25rem;cursor:pointer;">✕</button>
+            </div>
+            <div style="text-align:center;margin-bottom:1.5rem;">
+              <div id="detailAvatar" style="width:64px;height:64px;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1.25rem;font-weight:700;color:#000;margin:0 auto 0.75rem;"></div>
+              <div id="detailName" style="font-size:1.1rem;font-weight:800;margin-bottom:0.25rem;"></div>
+              <div id="detailRole" style="font-family:var(--mono);font-size:0.65rem;color:var(--accent);letter-spacing:1px;text-transform:uppercase;"></div>
+            </div>
+            <div style="background:var(--surface);padding:1rem;font-family:var(--mono);font-size:0.72rem;color:var(--muted);line-height:2;">
+              <div>Username: <span style="color:var(--text);" id="detailUsername"></span></div>
+              <div>Status: <span style="color:var(--accent);">Aktif</span></div>
+              <div>API: <span style="color:var(--text);">herisusanta.my.id</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PENGATURAN PAGE -->
+      <div class="page" id="page-pengaturan">
+        <div class="section-label">Pengaturan</div>
+
+        <div class="two-col" style="margin-bottom:1.5rem;">
+          <!-- INFO BLOG -->
+          <div class="panel">
+            <div class="panel-header"><h3>Informasi Blog</h3></div>
+            <div class="panel-body">
+              <div class="settings-field">
+                <label>Nama Blog</label>
+                <input type="text" id="setBlogName" value="ghazy.dev"/>
+              </div>
+              <div class="settings-field">
+                <label>Deskripsi</label>
+                <textarea id="setBlogDesc">Tutorial coding dalam bahasa Indonesia dari Yogyakarta.</textarea>
+              </div>
+              <div class="settings-field">
+                <label>Nama Penulis</label>
+                <input type="text" id="setBlogAuthor" value="Ghazy"/>
+              </div>
+              <div class="settings-field">
+                <label>Kota</label>
+                <input type="text" id="setBlogKota" value="Yogyakarta"/>
+              </div>
+              <button class="btn-save" onclick="simpanPengaturan()">Simpan Perubahan</button>
+              <span id="saveMsg" style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);margin-left:1rem;display:none;">✓ Disimpan!</span>
+            </div>
+          </div>
+
+          <!-- INFO AKUN -->
+          <div class="panel">
+            <div class="panel-header"><h3>Akun Admin</h3></div>
+            <div class="panel-body">
+              <div class="settings-field">
+                <label>Username</label>
+                <input type="text" id="settingsUsername" readonly style="opacity:0.5;cursor:not-allowed;"/>
+              </div>
+              <div class="settings-field">
+                <label>Role</label>
+                <input type="text" value="Administrator" readonly style="opacity:0.5;cursor:not-allowed;"/>
+              </div>
+              <div class="settings-field">
+                <label>API Endpoint</label>
+                <input type="text" value="https://herisusanta.my.id/javalogin/api/" readonly style="opacity:0.5;cursor:not-allowed;font-size:0.65rem;"/>
+              </div>
+              <button class="btn-save" onclick="doLogout()" style="background:var(--danger);">Logout dari Panel</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAMPILAN -->
+        <div class="panel" style="margin-bottom:1.5rem;">
+          <div class="panel-header"><h3>Tampilan & Tema</h3></div>
+          <div class="panel-body" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+            <div>
+              <div style="font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;">Warna Aksen</div>
+              <div style="display:flex;gap:0.5rem;">
+                <div onclick="setAccent('#00ff88')" style="width:28px;height:28px;background:#00ff88;cursor:pointer;border:2px solid var(--border);" title="Hijau"></div>
+                <div onclick="setAccent('#7c3aed')" style="width:28px;height:28px;background:#7c3aed;cursor:pointer;border:2px solid var(--border);" title="Ungu"></div>
+                <div onclick="setAccent('#f59e0b')" style="width:28px;height:28px;background:#f59e0b;cursor:pointer;border:2px solid var(--border);" title="Kuning"></div>
+                <div onclick="setAccent('#f87171')" style="width:28px;height:28px;background:#f87171;cursor:pointer;border:2px solid var(--border);" title="Merah"></div>
+                <div onclick="setAccent('#60a5fa')" style="width:28px;height:28px;background:#60a5fa;cursor:pointer;border:2px solid var(--border);" title="Biru"></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;">Artikel per Halaman</div>
+              <select style="background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.8rem;padding:0.5rem 0.75rem;outline:none;">
+                <option>5</option><option selected>8</option><option>10</option><option>20</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;">Mode Artikel</div>
+              <select style="background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.8rem;padding:0.5rem 0.75rem;outline:none;">
+                <option>Member Only</option><option>Publik</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- DANGER ZONE -->
+        <div class="panel" style="border-color:rgba(248,113,113,0.3);">
+          <div class="panel-header" style="border-color:rgba(248,113,113,0.3);"><h3 style="color:var(--danger);">⚠️ Danger Zone</h3></div>
+          <div class="panel-body" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+            <div>
+              <div style="font-size:0.9rem;font-weight:700;margin-bottom:0.3rem;">Reset Semua Data</div>
+              <div style="font-family:var(--mono);font-size:0.72rem;color:var(--muted);">Menghapus semua data sesi dan pengaturan tersimpan di browser.</div>
+            </div>
+            <button onclick="if(confirm('Yakin reset semua data?')){localStorage.clear();window.location.reload();}" style="background:none;border:1px solid var(--danger);color:var(--danger);font-family:var(--mono);font-size:0.7rem;padding:0.6rem 1.25rem;cursor:pointer;letter-spacing:1px;text-transform:uppercase;">Reset Data</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+
+  <script>
+    // --- AUTH GUARD ---
+    (function(){
+      var loggedIn = localStorage.getItem('ghazy_logged_in') === 'true';
+      var role     = localStorage.getItem('ghazy_user_role') || '';
+      if (!loggedIn || role !== 'admin') {
+        localStorage.setItem('ghazy_intended', 'admin/index.html');
+        window.location.href = '../login/index.html';
+      }
+    })();
+
+    // --- SET ADMIN NAME ---
+    var name = localStorage.getItem('ghazy_user_name') || 'Admin';
+    document.getElementById('adminName').textContent = name;
+    document.getElementById('adminInitials').textContent = name.slice(0,2).toUpperCase();
+    if (document.getElementById('settingsUsername')) {
+      document.getElementById('settingsUsername').value = name;
+    }
+
+    // --- LOGOUT ---
+    function doLogout() {
+      localStorage.removeItem('ghazy_logged_in');
+      localStorage.removeItem('ghazy_user_name');
+      localStorage.removeItem('ghazy_user_role');
+      localStorage.removeItem('ghazy_token');
+      window.location.href = '../index.html';
+    }
+
+    // --- PAGE NAVIGATION ---
+    function showPage(pageId, btn) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('page-' + pageId).classList.add('active');
+      btn.classList.add('active');
+      var titles = {dashboard:'Dashboard',artikel:'Kelola Artikel',pengguna:'Kelola Pengguna',pengaturan:'Pengaturan'};
+      document.getElementById('pageTitle').textContent = titles[pageId] || pageId;
+    }
+
+    // --- ARTIKEL FUNCTIONS ---
+    function filterArtikel() {
+      var q   = document.getElementById('searchArtikel').value.toLowerCase();
+      var kat = document.getElementById('filterKategori').value;
+      document.querySelectorAll('#bodyArtikel tr').forEach(function(row) {
+        var judul = row.dataset.judul ? row.dataset.judul.toLowerCase() : '';
+        var k     = row.dataset.kat || '';
+        var show  = judul.includes(q) && (kat === '' || k === kat);
+        row.style.display = show ? '' : 'none';
+      });
+    }
+
+    function openModal(judul, kat, ringkasan) {
+      document.getElementById('modalArtikel').style.display = 'flex';
+      document.getElementById('modalTitle').textContent = judul ? 'Edit Artikel' : 'Tambah Artikel';
+      document.getElementById('modalJudul').value = judul || '';
+      document.getElementById('modalKat').value = kat || 'HTML';
+      document.getElementById('modalRingkasan').value = ringkasan || '';
+    }
+
+    function closeModal() {
+      document.getElementById('modalArtikel').style.display = 'none';
+    }
+
+    function editArtikel(btn) {
+      var row = btn.closest('tr');
+      var judul = row.dataset.judul;
+      var kat   = row.dataset.kat;
+      openModal(judul, kat, '');
+    }
+
+    function hapusArtikel(btn) {
+      if (!confirm('Hapus artikel ini?')) return;
+      var row = btn.closest('tr');
+      row.style.opacity = '0';
+      row.style.transition = 'opacity 0.3s';
+      setTimeout(function(){ row.remove(); renumberArtikel(); }, 300);
+    }
+
+    function renumberArtikel() {
+      document.querySelectorAll('#bodyArtikel tr').forEach(function(row, i) {
+        row.cells[0].textContent = i + 1;
+      });
+    }
+
+    function simpanArtikel() {
+      var judul = document.getElementById('modalJudul').value.trim();
+      var kat   = document.getElementById('modalKat').value;
+      if (!judul) { alert('Judul tidak boleh kosong.'); return; }
+      var katClass = {HTML:'green',CSS:'purple',JavaScript:'yellow',GitHub:'purple',Python:'yellow'};
+      var tbody = document.getElementById('bodyArtikel');
+      var rows  = tbody.querySelectorAll('tr');
+      var num   = rows.length + 1;
+      var tr = document.createElement('tr');
+      tr.dataset.judul = judul; tr.dataset.kat = kat;
+      tr.innerHTML =
+        '<td>' + num + '</td><td>' + judul + '</td>' +
+        '<td><span class="badge ' + (katClass[kat]||'green') + '">' + kat + '</span></td>' +
+        '<td>' + new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}) + '</td>' +
+        '<td>0</td><td><span class="badge green">Aktif</span></td>' +
+        '<td><button class="btn-sm" onclick="editArtikel(this)">Edit</button> <button class="btn-sm del" onclick="hapusArtikel(this)">Hapus</button></td>';
+      tbody.appendChild(tr);
+      closeModal();
+    }
+
+    // --- PENGGUNA FUNCTIONS ---
+    function filterPengguna() {
+      var q = document.getElementById('searchPengguna').value.toLowerCase();
+      document.querySelectorAll('#bodyPengguna tr').forEach(function(row) {
+        var username = row.dataset.username || '';
+        row.style.display = username.includes(q) ? '' : 'none';
+      });
+    }
+
+    function lihatPengguna(username, name, role) {
+      document.getElementById('modalPengguna').style.display = 'flex';
+      document.getElementById('detailAvatar').textContent = username.slice(0,2).toUpperCase();
+      document.getElementById('detailName').textContent = name;
+      document.getElementById('detailRole').textContent = role;
+      document.getElementById('detailUsername').textContent = username;
+    }
+
+    function hapusPengguna(btn) {
+      if (!confirm('Hapus pengguna ini?')) return;
+      var row = btn.closest('tr');
+      row.style.opacity = '0'; row.style.transition = 'opacity 0.3s';
+      setTimeout(function(){ row.remove(); }, 300);
+    }
+
+    // --- PENGATURAN FUNCTIONS ---
+    function simpanPengaturan() {
+      localStorage.setItem('blog_name',   document.getElementById('setBlogName').value);
+      localStorage.setItem('blog_desc',   document.getElementById('setBlogDesc').value);
+      localStorage.setItem('blog_author', document.getElementById('setBlogAuthor').value);
+      localStorage.setItem('blog_kota',   document.getElementById('setBlogKota').value);
+      var msg = document.getElementById('saveMsg');
+      msg.style.display = 'inline';
+      setTimeout(function(){ msg.style.display = 'none'; }, 2000);
+    }
+
+    function setAccent(color) {
+      document.documentElement.style.setProperty('--accent', color);
+    }
+
+    // Load saved pengaturan
+    if (localStorage.getItem('blog_name'))   document.getElementById('setBlogName').value   = localStorage.getItem('blog_name');
+    if (localStorage.getItem('blog_desc'))   document.getElementById('setBlogDesc').value   = localStorage.getItem('blog_desc');
+    if (localStorage.getItem('blog_author')) document.getElementById('setBlogAuthor').value = localStorage.getItem('blog_author');
+    if (localStorage.getItem('blog_kota'))   document.getElementById('setBlogKota').value   = localStorage.getItem('blog_kota');
+
+    // Close modal klik di luar
+    document.getElementById('modalArtikel').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+    document.getElementById('modalPengguna').addEventListener('click', function(e){ if(e.target===this) this.style.display='none'; });
+    function updateTime() {
+      var now = new Date();
+      document.getElementById('topbarTime').textContent =
+        now.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'}) + ' · ' +
+        now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+    }
+    updateTime(); setInterval(updateTime, 1000);
+
+    // --- CHART ---
+    var chartData = [
+      {day:'Sen',val:85},{day:'Sel',val:120},{day:'Rab',val:98},
+      {day:'Kam',val:145},{day:'Jum',val:167},{day:'Sab',val:134},{day:'Min',val:89}
+    ];
+    var maxVal = Math.max(...chartData.map(d=>d.val));
+    var chartEl = document.getElementById('chartBars');
+    chartData.forEach(function(d){
+      var pct = Math.round((d.val/maxVal)*100);
+      chartEl.innerHTML +=
+        '<div class="bar-item">' +
+          '<div class="bar-val">' + d.val + '</div>' +
+          '<div class="bar-fill" style="height:' + pct + 'px;" title="' + d.val + ' pengunjung"></div>' +
+          '<div class="bar-label">' + d.day + '</div>' +
+        '</div>';
+    });
+  </script>
+</body>
+</html>
