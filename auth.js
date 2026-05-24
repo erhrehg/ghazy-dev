@@ -36,7 +36,7 @@
   var page = currentPage();
   if (PROTECTED_PAGES.indexOf(page) !== -1 && !isLoggedIn()) {
     localStorage.setItem('ghazy_intended', page);
-    window.location.href = 'login.html';
+    window.location.href = 'login/index.html';
     return;
   }
 
@@ -82,7 +82,7 @@
           '<button class="btn-logout" id="logoutBtn">Logout</button>';
       } else {
         authArea.innerHTML =
-          '<a href="login.html" class="btn-login-nav">Login</a>';
+          '<a href="login/index.html" class="btn-login-nav">Login</a>';
       }
 
       nav.appendChild(authArea);
@@ -108,14 +108,14 @@
         '<div class="lock-icon">🔒</div>' +
         '<h2>Konten Member Only</h2>' +
         '<p>Kamu perlu login untuk membaca artikel ini. Daftar gratis dan akses semua tutorial coding di blog ini.</p>' +
-        '<a href="login.html" class="lock-btn" id="lockLoginBtn">Login Sekarang →</a>' +
+        '<a href="login/index.html" class="lock-btn" id="lockLoginBtn">Login Sekarang →</a>' +
       '</div>';
     document.body.appendChild(overlay);
 
     document.getElementById('lockLoginBtn').addEventListener('click', function(e) {
       e.preventDefault();
       localStorage.setItem('ghazy_intended', currentPage());
-      window.location.href = 'login.html';
+      window.location.href = 'login/index.html';
     });
   }
 
