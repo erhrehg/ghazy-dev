@@ -115,6 +115,14 @@
       .btn-nav { font-family: var(--mono); font-size: 0.75rem; color: #000; background: var(--accent); border: none; padding: 0.45rem 1.1rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; display: inline-block; }
     .btn-nav:hover { transform: translate(-2px,-2px); box-shadow: 2px 2px 0 var(--accent2); }
 </style>
+<style>
+.maps-section{margin-bottom:4rem;}
+.maps-wrap{border:1px solid var(--border);overflow:hidden;background:var(--card);}
+.maps-wrap iframe{display:block;width:100%;height:400px;border:0;filter:grayscale(30%) contrast(1.1);}
+.maps-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.75rem;background:var(--card);}
+.maps-header span{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--muted);line-height:1.6;}
+.maps-header strong{color:var(--text);}
+</style>
 </head>
 <body>
   <nav>
@@ -215,6 +223,23 @@
             <p>Membangun ghazy.dev dari nol menggunakan HTML dan CSS murni sebagai tugas akhir sekaligus portofolio pribadi. Mulai menulis tutorial untuk berbagi ilmu.</p>
           </div>
         </div>
+      </div>
+    </div>
+
+
+    <!-- GOOGLE MAPS -->
+    <div class="maps-section">
+      <div class="section-label">Lokasi</div>
+      <div class="maps-wrap">
+        <div class="maps-header">
+          <span>📍</span>
+          <span><strong>Yogyakarta, Indonesia</strong><br>Daerah Istimewa Yogyakarta</span>
+        </div>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126650.30920696553!2d110.31393!3d-7.797068!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a5771c8f07797%3A0x3b2e79e1ad7aacdf!2sYogyakarta%2C%20Daerah%20Istimewa%20Yogyakarta!5e0!3m2!1sen!2sid!4v1716000000000!5m2!1sen!2sid"
+          width="100%" height="400"
+          style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
 
